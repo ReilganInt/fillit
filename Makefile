@@ -6,7 +6,7 @@
 #    By: vmormont <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 19:46:04 by vmormont          #+#    #+#              #
-#    Updated: 2019/05/06 06:06:37 by vmormont         ###   ########.fr        #
+#    Updated: 2019/05/30 10:02:15 by vmormont         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,27 +29,24 @@ L_FT	:= $(LIB_DIR)/libft
 
 .PHONY: all clean fclean re
 
-all:
-		mkdir -p $(OBJ_DIR)
-		@$(MAKE) -C $(L_FT) --no-print-directory
-		@$(MAKE) $(NAME) --no-print-directory
+all: $(NAME)
 
 $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c
 		$(CC) $(CFLAGS) -I $(L_FT)/includes -I $(INC_DIR) -o $@ -c $<
 
-$(NAME): $(OBJ)
+$(NAME): dir $(OBJ)
 		$(CC) $(OBJ) -L $(L_FT) -l ft -o $(NAME)
+
+dir:
+		mkdir -p $(OBJ_DIR)
+		make -C $(L_FT)
 
 clean:
 		rm -rf $(OBJ_DIR)
+		make -C $(L_FT) clean
 
 fclean: clean
+		make -C $(L_FT) fclean
 		rm -rf $(NAME)
 
-re:
-		@$(MAKE) fclean --no-print-directory
-		@$(MAKE) all --no-print-directory
-
-relibs:
-		@$(MAKE) -C $(L_FT) re --no-print-directory
-		@$(MAKE) re --no-print-directory
+re: fclean all
