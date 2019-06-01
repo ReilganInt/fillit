@@ -27,14 +27,17 @@ int				solve(t_tetris *tetris, const int count, uint16_t *map)
 	return (size == 17 ? 0 : size);
 }
 
-void			give_coord(const t_tetris *tetris, uint16_t *map)
+void				give_coord(const t_tetris *tetris, uint16_t *map)
 {
 	*(uint64_t *)(map + tetris->y) ^= tetris->value >> tetris->x;
 }
 
 int				check_coord(const t_tetris *tetris, uint16_t *map)
 {
-	return (!(*(uint64_t *)(map + tetris->y) & (tetris->value >> tetris->x)));
+	if ((tetris->value >> tetris->x) & (*(uint64_t *)(map + tetris->y)))
+		return (0);
+	else
+		return (1);
 }
 
 int				try_map(t_tetris *tetris, const int size, uint16_t *map)
