@@ -6,7 +6,7 @@
 #    By: vmormont <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 22:13:58 by vmormont          #+#    #+#              #
-#    Updated: 2019/05/03 00:41:46 by vmormont         ###   ########.fr        #
+#    Updated: 2019/06/01 19:58:05 by vmormont         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,21 +30,21 @@ CFLAGS	= -Wall -Wextra -Werror
 all: $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR):
-		mkdir -p $(OBJ_DIR)
-		mkdir -p $(addprefix $(OBJ_DIR)/,$(SRCDIRS))
+		@mkdir -p $(OBJ_DIR)
+		@mkdir -p $(addprefix $(OBJ_DIR)/,$(SRCDIRS))
 
 $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c
-		$(CC) $(CFLAGS) -I $(INC_DIR) -o $@ -c $<
+		@$(CC) $(CFLAGS) -I $(INC_DIR) -o $@ -c $<
 
 $(NAME): $(OBJ)
-		ar rc $(NAME) $(OBJ)
+		@ar rc $(NAME) $(OBJ)
 		ranlib $(NAME)
 
 clean:
-		rm -rf $(OBJ_DIR)
+		@rm -rf $(OBJ_DIR)
 
 fclean: clean
-		rm -f $(NAME)
+		@rm -f $(NAME)
 
 re:
 		@$(MAKE) fclean --no-print-directory
