@@ -6,7 +6,7 @@
 #    By: vmormont <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 19:46:04 by vmormont          #+#    #+#              #
-#    Updated: 2019/06/01 20:00:05 by vmormont         ###   ########.fr        #
+#    Updated: 2019/06/01 20:04:30 by vmormont         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	:= fillit
 SRC_DIR	:= ./src
 INC_DIR	:= ./includes
 OBJ_DIR	:= ./obj
-LIB_DIR	:= ./lib
+LIB_DIR	:= ./libft
 
 SRC		:= main.c \
 			checks.c \
@@ -28,28 +28,27 @@ OBJ		:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 CC		:= gcc
 CFLAGS	:= -Wall -Wextra -Werror
 
-L_FT	:= $(LIB_DIR)/libft
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
 $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c
-		$(CC) $(CFLAGS) -I $(L_FT)/includes -I $(INC_DIR) -o $@ -c $<
+		$(CC) $(CFLAGS) -I $(LIB_DIR)/includes -I $(INC_DIR) -o $@ -c $<
 
 $(NAME): dir $(OBJ)
-		$(CC) $(OBJ) -L $(L_FT) -l ft -o $(NAME)
+		$(CC) $(OBJ) -L $(LIB_DIR) -l ft -o $(NAME)
 
 dir:
 		@mkdir -p $(OBJ_DIR)
-		@make -C $(L_FT)
+		@make -C $(LIB_DIR)
 
 clean:
 		@rm -rf $(OBJ_DIR)
-		@make -C $(L_FT) clean
+		@make -C $(LIB_DIR) clean
 
 fclean: clean
-		@make -C $(L_FT) fclean
+		@make -C $(LIB_DIR) fclean
 		@rm -rf $(NAME)
 
 re: fclean all
