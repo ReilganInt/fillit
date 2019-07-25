@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_lstend.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vmormont <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/03 15:36:17 by vmormont          #+#    #+#             */
-/*   Updated: 2019/04/10 07:29:39 by vmormont         ###   ########.fr       */
+/*   Created: 2019/06/09 01:33:23 by vmormont          #+#    #+#             */
+/*   Updated: 2019/06/09 01:36:13 by vmormont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr(char const *s)
+void			ft_lstend(t_list **alst, t_list *new)
 {
-	int i;
+	t_list		*temp;
 
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
+	temp = *alst;
+	if (temp)
 	{
-		ft_putchar(s[i]);
-		i++;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = new;
 	}
+	else
+		*alst = new;
 }

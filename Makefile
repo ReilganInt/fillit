@@ -5,45 +5,50 @@
 #                                                     +:+ +:+         +:+      #
 #    By: vmormont <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/04/05 22:13:58 by vmormont          #+#    #+#              #
-#    Updated: 2019/06/08 23:08:11 by vmormont         ###   ########.fr        #
+#    Created: 2019/06/08 19:51:24 by vmormont          #+#    #+#              #
+#    Updated: 2019/06/08 22:00:49 by vmormont         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a 
+NAME:= fillit 
 
-SRC_DIR	= ./src
-INC_DIR = ./includes
-OBJ_DIR = ./obj
+SRC_DIR:= ./src
+INC_DIR:= ./includes
+OBJ_DIR:= ./obj
+LIB_DIR:= ./libft
 
-RAW_SRC	:= $(shell find $(SRC_DIR) -type f | grep -E "\.c$$")
-RAW_DIRS:= $(shell find $(SRC_DIR) -type d -mindepth 1)
-SRCDIRS = $(RAW_DIRS:./src/%=%)
-SRC		= $(RAW_SRC:./src/%=%)
-OBJ		= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
+SRC:= main.c \
+	additional.c \
+	get_tetri.c \
+	position.c \
+	solver.c \
+	validation.c
 
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+OBJ:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
-.PHONY: all clean fclean re
+CC:= gcc
+CFLAGS:= -Wall -Wextra -Werror
+
+.PHONY: all dir clean fclean re
 
 all: $(NAME)
 
-$(OBJ_DIR):
-		mkdir -p $(OBJ_DIR)
-		mkdir -p $(addprefix $(OBJ_DIR)/,$(SRCDIRS))
-
 $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c
-		$(CC) $(CFLAGS) -I $(INC_DIR) -o $@ -c $<
+	$(CC) $(CFLAGS) -I $(LIB_DIR)/includes -I $(INC_DIR) -o $@ -c $<
 
-$(NAME): $(OBJ_DIR) $(OBJ)
-		ar rc $(NAME) $(OBJ)
-		ranlib $(NAME)
+$(NAME): dir $(OBJ)
+	$(CC) $(OBJ) -L $(LIB_DIR) -l ft -o $(NAME)
+
+dir:
+	mkdir -p $(OBJ_DIR)
+	make -C $(LIB_DIR)
 
 clean:
-		rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DIR)
+	make -C $(LIB_DIR) clean
 
 fclean: clean
-		rm -f $(NAME)
+	make -C $(LIB_DIR) fclean
+	rm -rf $(NAME)
 
 re: fclean all

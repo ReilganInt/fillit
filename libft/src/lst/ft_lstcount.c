@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_lstcount.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vmormont <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/03 15:36:17 by vmormont          #+#    #+#             */
-/*   Updated: 2019/04/10 07:29:39 by vmormont         ###   ########.fr       */
+/*   Created: 2019/06/09 01:57:23 by vmormont          #+#    #+#             */
+/*   Updated: 2019/06/09 01:57:28 by vmormont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr(char const *s)
+size_t			ft_lstcount(t_list *lst)
 {
-	int i;
+	size_t		i;
 
 	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
+	while (lst != NULL)
 	{
-		ft_putchar(s[i]);
+		lst = lst->next;
 		i++;
 	}
+	return (i);
 }
